@@ -1,8 +1,5 @@
 const gallery = document.querySelector('.gallery')
-const img = document.querySelectorAll('img')
-console.log(img)
-
-
+const img = document.querySelectorAll('.imgGallery')
 
 
 fetch(`http://localhost:5678/api/works`)
@@ -11,8 +8,9 @@ fetch(`http://localhost:5678/api/works`)
 
         if(res.ok){
             res.json().then(data => {
-                gallery.innerHTML +="<figure>"+"<img>"+"<figcaption>"+data[0].title+"</figcaption>"+"</figure>";
-                img.src = data[0].imageUrl
+                for ( let i=0; i < 12; i++){
+                gallery.innerHTML +="<figure>"+"<img src='"+data[i].imageUrl+"'>"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
+            }
             })
         } else {
             console.log("ERREUR");
