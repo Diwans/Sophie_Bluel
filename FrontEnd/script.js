@@ -1,5 +1,9 @@
 const gallery = document.querySelector('.gallery')
 const img = document.querySelectorAll('.imgGallery')
+const btn1 = document.getElementById('btn1')
+const btn2 = document.getElementById('btn2')
+const btn3 = document.getElementById('btn3')
+const btn4 = document.getElementById('btn4')
 
 
 fetch(`http://localhost:5678/api/works`)
@@ -15,5 +19,5 @@ fetch(`http://localhost:5678/api/works`)
         } else {
             console.log("ERREUR");
         }
-    })
+    });
 
