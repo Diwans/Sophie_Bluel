@@ -13,11 +13,17 @@ fetch(`http://localhost:5678/api/works`)
         if(res.ok){
             res.json().then(data => {
                 for ( let i=0; i < 12; i++){
-                gallery.innerHTML +="<figure>"+"<img src='"+data[i].imageUrl+"'>"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
+                gallery.innerHTML +="<figure>"+"<img src="+data[i].imageUrl+">"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
             }
             })
         } else {
             console.log("ERREUR");
         }
     });
+
+function getCategory (){
+    fetch(`http://localhost:5678/api/categories`)
+    .then(res => res.json())
+    .then(data=> data.name)
+}
 
