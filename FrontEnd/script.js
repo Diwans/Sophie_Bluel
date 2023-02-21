@@ -1,9 +1,7 @@
 const gallery = document.querySelector('.gallery')
 const img = document.querySelectorAll('.imgGallery')
-const btn1 = document.getElementById('btn1')
-const btn2 = document.getElementById('btn2')
-const btn3 = document.getElementById('btn3')
-const btn4 = document.getElementById('btn4')
+const cateContainer = document.getElementById('categories')
+const btn = document.querySelectorAll('.textCategories')
 
 
 fetch(`http://localhost:5678/api/works`)
@@ -12,8 +10,8 @@ fetch(`http://localhost:5678/api/works`)
 
         if(res.ok){
             res.json().then(data => {
-                for ( let i=0; i < 12; i++){
-                gallery.innerHTML +="<figure>"+"<img src="+data[i].imageUrl+">"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
+                for ( let i=0; i < data.length; i++){
+                gallery.innerHTML +="<figure data-attr-categorie="+data[i].category.id+">"+"<img src="+data[i].imageUrl+">"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
             }
             })
         } else {
@@ -21,9 +19,27 @@ fetch(`http://localhost:5678/api/works`)
         }
     });
 
-function getCategory (){
     fetch(`http://localhost:5678/api/categories`)
-    .then(res => res.json())
-    .then(data=> data.name)
-}
+    .then(res => {
+        console.log(res);
+
+        if(res.ok){
+            res.json().then(data => {
+                for ( let i=0; i < data.length; i++){
+                cateContainer.innerHTML +="<button data-attr-categorie="+data[i].id+" class=\"textCategories\">"+data[i].name+"</button>"
+            }
+            })
+        } else {
+            console.log("ERREUR");
+        }
+    });
+
+    for ( let i=0; i< btn[i].length; i++)
+    btn[i].addEventListener('click', ()=>{
+        if ( data-attr-categorie == 1){
+            console.log('yes')
+        }
+    })
+
+
 
