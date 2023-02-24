@@ -1,7 +1,7 @@
 const gallery = document.querySelector('.gallery')
 const img = document.querySelectorAll('.imgGallery')
 const cateContainer = document.getElementById('categories')
-const btn = document.querySelectorAll('.textCategories')
+
 
 
 fetch(`http://localhost:5678/api/works`)
@@ -28,18 +28,22 @@ fetch(`http://localhost:5678/api/works`)
                 for ( let i=0; i < data.length; i++){
                 cateContainer.innerHTML +="<button data-attr-categorie="+data[i].id+" class=\"textCategories\">"+data[i].name+"</button>"
             }
+            eventButton()
+
             })
         } else {
             console.log("ERREUR");
         }
     });
 
-    for ( let i=0; i< btn[i].length; i++)
-    btn[i].addEventListener('click', ()=>{
-        if ( data-attr-categorie == 1){
-            console.log('yes')
-        }
-    })
+
+function eventButton (){
+    const btnCategory = document.querySelectorAll('.textCategories')
+    for ( let i= 0 ; i< btnCategory.length; i++)
+    btnCategory[i].addEventListener('click', (e) => {
+        console.log(e.target.dataset.attrCategorie)
+    } )    
+}
 
 
 
