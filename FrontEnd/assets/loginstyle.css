@@ -1,8 +1,10 @@
 body {
-	max-width: 1400px;
+	max-width: 1440px;
+	max-height: 1024px;
 	margin: auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	background: #FFFEF8;
 }
 
 h1{
@@ -50,12 +52,66 @@ li:hover {
     height: 20px;
 }
 
+#all{
+position: absolute;
+left: 40%;
+top: 35%;
+	
+}
+
 .formLogin{
-    margin-top: 30px;
+	width: 379px;
+	height: 51px;
+	left: 530px;
+	top: 338px;
+	background: #FFFFFF;
+	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	border: none;
+}
+
+.formDiv{
+	margin-top: 30px;
+	line-height: 2;
 }
 
 .mLegal{
     position: absolute;
     right: 7%;
     bottom: 3%;
+	color: #000000;
+	text-decoration: none;
+}
+
+.centerLogin{
+	text-align: center;
+	color: #1D6154;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 30px;
+}
+
+.mdp{
+	color: #000000;
+}
+
+.connect{
+	background: #1D6154;
+	border-radius: 60px;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 14px;
+	color: #FFFFFF;
+	border: none;
+	width: 180px;
+	height: 36px;
+}
+
+.center{
+	text-align: center;
+}
+
+.formTypo{
+	color: #3D3D3D;
+	font-family: 'Work Sans';
+	font-size: 14px;
 }
