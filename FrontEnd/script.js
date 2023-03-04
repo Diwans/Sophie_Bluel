@@ -3,20 +3,17 @@ const cateContainer = document.getElementById('categories')
 
 
 function galleryFetch(){
+    gallery.innerHTML =""
     fetch(`http://localhost:5678/api/works`)
     .then(res => {
-        console.log(res);
 
         if(res.ok){
             res.json().then(data => {
                 for ( let i=0; i < data.length; i++){
-                gallery.innerHTML +="<figure data-attr-categorie="+data[i].category.id+" class=\"imgGallery\">"+"<img src="+data[i].imageUrl+">"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
+                gallery.innerHTML +="<figure class=\"imgGallery\">"+"<img src="+data[i].imageUrl+">"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
                 }
-                getImg()
-            })
-        } else {
-            console.log("ERREUR");
-        }
+                })
+        } 
     });
 }
 galleryFetch()
@@ -24,53 +21,50 @@ galleryFetch()
 function buttonFetch(){
     fetch(`http://localhost:5678/api/categories`)
     .then(res => {
-        console.log(res);
 
         if(res.ok){
             res.json().then(data => {
                 for ( let i=0; i < data.length; i++){
                 cateContainer.innerHTML +="<button data-attr-categorie="+data[i].id+" class=\"textCategory\">"+data[i].name+"</button>"
             }
-            getIdBtn()
-
+            btnEvent()
             })
-        } else {
-            console.log("ERREUR");
-        }
+        } 
     });
 }
 buttonFetch()
 
 
-function getIdBtn(){
+function btnEvent(){
     const btnCategory = document.querySelectorAll('.textCategory')
     for ( let i=0 ; i < btnCategory.length; i++)
     btnCategory[i].addEventListener('click', (e) => {
         let value = e.target.dataset.attrCategorie
-        console.log(value)
         
         if (value == 0){
-            console.log('a')
+            galleryFetch()
         }
-
-        if (value == 1){
-            gallery.innerHTML="";
-           
-        }
-
-        if (value == 2){
-            console.log('c')
-        }
-
-        if (value == 3){
-            console.log('d')
-        }
+            else {
+                getFigure(value)
+            }
         
     } ) 
 }
 
-function getImg(){
-    const img = document.querySelectorAll('.imgGallery')
-    console.log(img)
+function getFigure(idCategorie){
+    gallery.innerHTML =""
+    fetch(`http://localhost:5678/api/works`)
+    .then(res => {
+        if(res.ok){
+            res.json().then(data => {
+                for ( let i=0; i < data.length; i++){
+                    if (data[i].category.id == idCategorie){
+                        gallery.innerHTML +="<figure class=\"imgGallery\">"+"<img src="+data[i].imageUrl+">"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
+                    }
+                    }
+               })
+        } 
+    });
+    
 }
 

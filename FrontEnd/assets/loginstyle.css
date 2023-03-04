@@ -115,3 +115,8 @@ top: 35%;
 	font-family: 'Work Sans';
 	font-size: 14px;
 }
+
+a{
+	text-decoration: none;
+	color: #000000;
+}
