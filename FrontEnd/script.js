@@ -40,7 +40,6 @@ function btnEvent(){
     for ( let i=0 ; i < btnCategory.length; i++)
     btnCategory[i].addEventListener('click', (e) => {
         let value = e.target.dataset.attrCategorie
-        
         if (value == 0){
             galleryFetch()
         }
@@ -48,7 +47,17 @@ function btnEvent(){
                 getFigure(value)
             }
         
-    } ) 
+    } )
+
+        btnCategory.forEach(button => {
+            button.addEventListener('click', ()=>{
+                document.querySelector('.active')?.classList.remove('active');
+                button.classList.add('active')
+            })
+        })
+
+    
+
 }
 
 function getFigure(idCategorie){
@@ -67,4 +76,6 @@ function getFigure(idCategorie){
     });
     
 }
+
+
 

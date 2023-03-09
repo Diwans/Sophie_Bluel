@@ -192,13 +192,6 @@ footer nav ul {
 	margin-bottom: 50px;
 }
 
-#categories button{
-	border: 1px solid #1D6154;
-	border-radius: 60px;
-	background-color: white;
-	padding: 7px 15px;
-	margin: 5px;
-}
 
 .textCategory{
 	font-family: 'Syne';
@@ -208,6 +201,11 @@ footer nav ul {
 	line-height: 19px;
 	text-align: center;
 	color: #1D6154;
+	border: 1px solid #1D6154;
+	border-radius: 60px;
+	background-color: white;
+	padding: 7px 15px;
+	margin: 5px;
 }
 
 #categories button:hover{
@@ -224,4 +222,9 @@ footer nav ul {
 nav a {
 	text-decoration: none;
 	color: black;
+}
+
+.active{
+	background-color: #1D6154;
+	color: white;
 }
