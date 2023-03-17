@@ -228,3 +228,128 @@ nav a {
 	background-color: #1D6154;
 	color: white;
 }
+
+.connectContainer{
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	background: #000000;
+	width: 100%;
+	height: 59px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.headerMargin{
+	margin-top: 100px;
+	margin-bottom: 80px;
+}
+
+.modeEdit{
+	font-family: 'Work Sans';
+	font-weight: 100;
+	font-size:16px;
+	color: white;
+	text-align: center;
+	margin-left: 10px;
+}
+
+.btnPublish{
+	margin-left: 20px;
+	border: none;
+	border-radius: 60px;
+	background-color: white;
+	height: 38px;
+	width: 215px;
+	font-family: 'Work Sans';
+	font-weight: 700;
+	font-size: 14px;
+	text-align: center;
+}
+
+.iconColor{
+	color:#ffff;
+}
+
+.btnModif{
+	font-family: 'Work Sans';
+	font-weight: 400;
+	font-size: 14px;
+	text-align: center;
+}
+
+.marginIconPdp{
+	margin-left: 57px;
+	margin-right: 8px;
+}
+
+.marginIconProjet{
+	margin-left: 30px;
+	margin-right: 8px;
+}
+
+.align{
+	display: flex;
+	justify-content: center;
+	text-align: center;
+	align-items: baseline;
+}
+
+article p{
+	width: 404px;
+}
+
+
+.modalContainer{
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.modalContainer.active{
+	display: block;
+	background: rgba(0, 0, 0, 0.3)
+
+}
+
+.overlay {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	background: rgba(0, 0, 0, 0.3)
+}
+
+.modal {
+	width: 95%;
+	max-width: 500px;
+	min-width: 300px;
+	padding: 30px;
+	background: #fff;
+	border-radius: 5px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
+
+.closeModal{
+	cursor: pointer;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	border: none;
+	background: none;
+}
+
+.suppr{
+	color:red;
+}
+
+.cursorP{
+	cursor: pointer;
+}
