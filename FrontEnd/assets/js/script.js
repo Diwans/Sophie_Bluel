@@ -51,8 +51,8 @@ function btnEvent(){
 
         btnCategory.forEach(button => {
             button.addEventListener('click', ()=>{
-                document.querySelector('.active')?.classList.remove('active');
-                button.classList.add('active')
+                document.querySelector('.activebtn')?.classList.remove('activebtn');
+                button.classList.add('activebtn')
             })
         })
 
@@ -102,4 +102,39 @@ modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal )
 
 function toggleModal(){
     modalContainer.classList.toggle('active')
+}
+
+const galleryModal = document.getElementById('galleryModal')
+
+function galleryModalFetch(){
+    gallery.innerHTML =""
+    fetch(`http://localhost:5678/api/works`)
+    .then(res => {
+
+        if(res.ok){
+            res.json().then(data => {
+                for ( let i=0; i < data.length; i++){
+                galleryModal.innerHTML +="<figure class=\"figureModal\">"+"<img src="+data[i].imageUrl+">"+"<p>éditer</p>"+"</figure>"
+                }
+                })
+        } 
+    });
+}
+galleryModalFetch()
+
+const btnAddModal = document.querySelector('.btnAdd')
+const modal = document.querySelector('.modal')
+
+btnAddModal.addEventListener('click', ()=>{
+    addModal()
+})
+
+function addModal(){
+    modal.innerHTML=""
+    
+    modal.innerHTML="<button class=\"backModal trigger\"><i class=\"fa-solid fa-arrow-left backModal\"></i></button>"+"<button class=\"closeModal trigger\">X</button>"+"<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<i class=\"fa-regular fa-image fa-6x\"></i>"+"<button class=\"btnAddModal\">+ Ajouter photo</button>"+"<p>jpg, png : 4mo max</p>"
+    
+    modal.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"categorie\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"cateAddModalInput\">"+"</form>"
+    
+    modal.innerHTML += "<button id=\"validate\">Valider</button>"
 }
