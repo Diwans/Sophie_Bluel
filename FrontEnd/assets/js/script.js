@@ -104,9 +104,10 @@ function toggleModal(){
     modalContainer.classList.toggle('active')
 }
 
-const galleryModal = document.getElementById('galleryModal')
+
 
 function galleryModalFetch(){
+    const galleryModal = document.getElementById('galleryModal')
     gallery.innerHTML =""
     fetch(`http://localhost:5678/api/works`)
     .then(res => {
@@ -122,19 +123,52 @@ function galleryModalFetch(){
 }
 galleryModalFetch()
 
-const btnAddModal = document.querySelector('.btnAdd')
-const modal = document.querySelector('.modal')
 
-btnAddModal.addEventListener('click', ()=>{
+function btnAddModal(){
+    const btnAddModal = document.querySelector('.btnAdd')
+    
+    btnAddModal.addEventListener('click', ()=>{
     addModal()
 })
+}
+btnAddModal()
+
+
 
 function addModal(){
-    modal.innerHTML=""
+    const modalContent = document.getElementById('modalContent')
+    const modalNav = document.getElementById('modalNav')
     
-    modal.innerHTML="<button class=\"backModal trigger\"><i class=\"fa-solid fa-arrow-left backModal\"></i></button>"+"<button class=\"closeModal trigger\">X</button>"+"<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<i class=\"fa-regular fa-image fa-6x\"></i>"+"<button class=\"btnAddModal\">+ Ajouter photo</button>"+"<p>jpg, png : 4mo max</p>"
+    modalContent.innerHTML =""
+    modalNav.innerHTML +="<button class=\"backModal\"><i class=\"fa-solid fa-arrow-left backModal\"></i></button>"
+
+    modalContent.innerHTML ="<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<i class=\"fa-regular fa-image fa-6x\"></i>"+"<button class=\"btnAddModal\">+ Ajouter photo</button>"+"<p>jpg, png : 4mo max</p>"
     
-    modal.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"categorie\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"cateAddModalInput\">"+"</form>"
+    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"categorie\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"cateAddModalInput\">"+"</form>"
     
-    modal.innerHTML += "<button id=\"validate\">Valider</button>"
+    modalContent.innerHTML += "<button id=\"validate\">Valider</button>"
+
+    const modalTriggers = document.querySelectorAll('.trigger');
+    modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal ))
+
+    addFilesModal ()
+    
+}
+
+
+function addFilesModal (){
+    const backModal = document.querySelector('.backModal')
+    backModal.addEventListener('click', ()=>{
+        modalContent.innerHTML =""
+        modalNav.innerHTML ="<button class=\"closeModal trigger\" id=\"closeModal\">X</button>"
+
+        modalContent.innerHTML="<h2 class=\"titleModal\">Galerie photo</h2>"+"<div id=\"galleryModal\"></div>"+"<button class=\"btnAdd\">Ajouter une photo</button>"+"<p class=\"suppr\">supprimer la galerie</p>"
+        
+        const modalTriggers = document.querySelectorAll('.trigger');
+        modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal ))
+
+        galleryModalFetch()
+
+        btnAddModal()
+    })
 }
