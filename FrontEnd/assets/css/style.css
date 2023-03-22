@@ -425,6 +425,11 @@ article p{
 	color: #B9C5CC;
 }
 
+
+input[type="file"]{
+	display: none;
+}
+
 .btnAddModal{
 	border: none;
 	border-radius: 50px;
@@ -438,6 +443,9 @@ article p{
 	font-weight: 500;
 	font-size: 14px;
 	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
 #addPhoto p{
@@ -498,4 +506,13 @@ article p{
 	font-weight: 700;
 	font-size: 14px;
 	cursor: pointer;
+}
+
+.imgSize{
+	max-width: 420px;
+	max-height: 169px;
+}
+
+.displayNone{
+	display: none;
 }

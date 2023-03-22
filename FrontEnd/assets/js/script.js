@@ -108,7 +108,7 @@ function toggleModal(){
 
 function galleryModalFetch(){
     const galleryModal = document.getElementById('galleryModal')
-    gallery.innerHTML =""
+    galleryModal.innerHTML =""
     fetch(`http://localhost:5678/api/works`)
     .then(res => {
 
@@ -142,9 +142,9 @@ function addModal(){
     modalContent.innerHTML =""
     modalNav.innerHTML +="<button class=\"backModal\"><i class=\"fa-solid fa-arrow-left backModal\"></i></button>"
 
-    modalContent.innerHTML ="<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<i class=\"fa-regular fa-image fa-6x\"></i>"+"<button class=\"btnAddModal\">+ Ajouter photo</button>"+"<p>jpg, png : 4mo max</p>"
+    modalContent.innerHTML ="<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<div id=\"photoContainer\"><i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"
     
-    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"categorie\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"cateAddModalInput\">"+"</form>"
+    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+"</form>"
     
     modalContent.innerHTML += "<button id=\"validate\">Valider</button>"
 
@@ -152,6 +152,8 @@ function addModal(){
     modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal ))
 
     addFilesModal ()
+    addCatToSelect()
+    afficherImg()
     
 }
 
@@ -168,7 +170,39 @@ function addFilesModal (){
         modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal ))
 
         galleryModalFetch()
-
         btnAddModal()
+    })
+}
+
+
+function addCatToSelect(){
+    const select = document.getElementById('cateAddModalInput')
+    fetch(`http://localhost:5678/api/categories`)
+    .then(res => {
+
+        if(res.ok){
+            res.json().then(data => {
+                for ( let i=0; i < data.length; i++){
+                select.innerHTML +="<option value="+data[i].name+">"+data[i].name+"</option>"
+            }
+            })
+        } 
+    });
+}
+
+function afficherImg(){
+    const divDisplayNone = document.querySelectorAll('.display')
+    const photoContainer = document.querySelector('#photoContainer')
+    document.addEventListener('change', (e)=>{
+        if (e.target.files[0].type =='image/png' || e.target.files[0].type =='image/jpeg') {
+
+            photoContainer.innerHTML = "<img id=\"imgUploaded\" class=\"imgSize\"></img>"
+
+            const imgUploaded = document.getElementById('imgUploaded')
+            imgUploaded.src = URL.createObjectURL(e.target.files[0]);
+
+            for ( let i= 0; i < divDisplayNone.length; i++)
+            divDisplayNone[i].classList.add('displayNone')
+        }
     })
 }
