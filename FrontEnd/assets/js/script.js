@@ -144,9 +144,8 @@ function addModal(){
 
     modalContent.innerHTML ="<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<div id=\"photoContainer\"><i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"
     
-    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+"</form>"
-    
-    modalContent.innerHTML += "<button id=\"validate\">Valider</button>"
+    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+ "<input type=\"submit\" for=\"divInputAdd\" id=\"validate\" value=\"Valider\">"+"</form>"
+
 
     const modalTriggers = document.querySelectorAll('.trigger');
     modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal ))
@@ -193,8 +192,9 @@ function addCatToSelect(){
 function afficherImg(){
     const divDisplayNone = document.querySelectorAll('.display')
     const photoContainer = document.querySelector('#photoContainer')
-    document.addEventListener('change', (e)=>{
-        if (e.target.files[0].type =='image/png' || e.target.files[0].type =='image/jpeg') {
+    const inputFile = document.getElementById('file')
+    inputFile.addEventListener('change', (e)=>{
+        if (e.target.files[0].type ==='image/png' || e.target.files[0].type ==='image/jpeg') {
 
             photoContainer.innerHTML = "<img id=\"imgUploaded\" class=\"imgSize\"></img>"
 
@@ -203,6 +203,47 @@ function afficherImg(){
 
             for ( let i= 0; i < divDisplayNone.length; i++)
             divDisplayNone[i].classList.add('displayNone')
+            postSomething()
         }
     })
+    
 }
+
+function errorMsgImg(){alert('error')}
+
+function postSomething(){
+    const imgUploaded = document.querySelector('#imgUploaded')
+    const imgTitre = document.querySelector('#titreAddModalInput')
+    const imgCat = document.querySelector('#cateAddModalInput')
+    const imgForm = document.querySelector('#divInputAdd')
+
+
+    imgForm.addEventListener('submit', (e)=>{
+        e.preventDefault();
+        console.log(sessionStorage.getItem("token"))
+        
+
+        const imgAdded = {
+            image: imgUploaded.src,
+            title : imgTitre.value,
+            category : imgCat.value,
+        };
+    
+        fetch('http://localhost:5678/api/works', {
+            method:"POST",
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify(imgAdded)
+        })
+    
+        .then((res) =>{
+            if(res.ok){
+                return res.json();
+            }
+            else{
+                errorMsgImg()
+            }
+        })
+    })
+}
+
+

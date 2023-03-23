@@ -487,7 +487,6 @@ input[type="file"]{
 #divInputAdd{
 	width: 420px;
 	text-align: start;
-	border-bottom: 1px solid #B3B3B3;
 	margin-left: auto;
 	margin-right: auto;
 	padding-bottom: 50px;
@@ -506,6 +505,7 @@ input[type="file"]{
 	font-weight: 700;
 	font-size: 14px;
 	cursor: pointer;
+	margin-left: 20%;
 }
 
 .imgSize{
