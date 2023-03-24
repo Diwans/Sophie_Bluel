@@ -182,7 +182,7 @@ function addCatToSelect(){
         if(res.ok){
             res.json().then(data => {
                 for ( let i=0; i < data.length; i++){
-                select.innerHTML +="<option value="+data[i].name+">"+data[i].name+"</option>"
+                select.innerHTML +="<option value="+data[i].id+">"+data[i].name+"</option>"
             }
             })
         } 
@@ -209,39 +209,33 @@ function afficherImg(){
     
 }
 
-function errorMsgImg(){alert('error')}
-
 function postSomething(){
-    const imgUploaded = document.querySelector('#imgUploaded')
+    const imgUploaded = document.querySelector('#file')
     const imgTitre = document.querySelector('#titreAddModalInput')
     const imgCat = document.querySelector('#cateAddModalInput')
     const imgForm = document.querySelector('#divInputAdd')
 
-
-    imgForm.addEventListener('submit', (e)=>{
-        e.preventDefault();
-        console.log(sessionStorage.getItem("token"))
+    imgForm.addEventListener('submit', ()=>{
+    const formData = new FormData();
+    console.log(imgUploaded)
+        formData.append("image", imgUploaded.files[0]);
+        formData.append("title", imgTitre.value);
+        formData.append("category", imgCat.value);
         
-
-        const imgAdded = {
-            image: imgUploaded.src,
-            title : imgTitre.value,
-            category : imgCat.value,
-        };
-    
         fetch('http://localhost:5678/api/works', {
             method:"POST",
-            headers: {'Content-type': 'application/json'},
-            body: JSON.stringify(imgAdded)
+            headers: {"Authorization": `Bearer ${sessionStorage.getItem("token")}`},
+            body: formData,
         })
     
-        .then((res) =>{
-            if(res.ok){
-                return res.json();
+        .then( res => {
+            if (res.ok){
+                alert('ajoutée avec succès!')
+                galleryFetch()
             }
-            else{
-                errorMsgImg()
-            }
+        })
+        .catch(error=>{
+            console.log(error.message)
         })
     })
 }
