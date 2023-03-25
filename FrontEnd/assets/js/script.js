@@ -144,7 +144,7 @@ function addModal(){
 
     modalContent.innerHTML ="<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<div id=\"photoContainer\"><i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"
     
-    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+ "<input type=\"submit\" for=\"divInputAdd\" id=\"validate\" value=\"Valider\">"+"</form>"
+    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+"<div id=\"trait\"></div>" +"<input type=\"button\" for=\"divInputAdd\" id=\"validate\" value=\"Valider\">"+"</form>"
 
 
     const modalTriggers = document.querySelectorAll('.trigger');
@@ -213,11 +213,11 @@ function postSomething(){
     const imgUploaded = document.querySelector('#file')
     const imgTitre = document.querySelector('#titreAddModalInput')
     const imgCat = document.querySelector('#cateAddModalInput')
-    const imgForm = document.querySelector('#divInputAdd')
+    const validate = document.querySelector('#validate')
 
-    imgForm.addEventListener('submit', ()=>{
+
+    validate.addEventListener('click', ()=>{
     const formData = new FormData();
-    console.log(imgUploaded)
         formData.append("image", imgUploaded.files[0]);
         formData.append("title", imgTitre.value);
         formData.append("category", imgCat.value);
@@ -230,8 +230,7 @@ function postSomething(){
     
         .then( res => {
             if (res.ok){
-                alert('ajoutée avec succès!')
-                galleryFetch()
+                gallery.innerHTML +="<figure class=\"imgGallery\">"+"<img src="+res.imageUrl+">"+"<figcaption>"+res.title+"</figcaption>"+"</figure>";
             }
         })
         .catch(error=>{

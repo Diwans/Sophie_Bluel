@@ -365,15 +365,20 @@ article p{
 
 #galleryModal{
 	width: 420px;
+	max-height: 350px;
 	display: flex;
 	flex-wrap:wrap;
-	border-bottom: 0.5px solid #1D6154;
 	margin-top: 30px;
 	margin-bottom: 50px;
 	padding-bottom: 40px;
 	margin-left: auto;
 	margin-right: auto;
+	overflow-y: auto;
 
+}
+
+::-webkit-scrollbar{
+	width: 0.5px;
 }
 
 .btnAdd{
@@ -515,4 +520,9 @@ input[type="file"]{
 
 .displayNone{
 	display: none;
+}
+
+#trait{
+	margin-top: 40px;
+	border-bottom: solid 2px #B3B3B3;
 }
