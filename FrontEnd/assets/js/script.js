@@ -1,7 +1,7 @@
 const gallery = document.querySelector('.gallery')
 const cateContainer = document.getElementById('categories')
 
-
+//fonction pour afficher les differents travaux de l'API dans la galerie a l'aide du fetch
 function galleryFetch(){
     gallery.innerHTML =""
     fetch(`http://localhost:5678/api/works`)
@@ -17,7 +17,7 @@ function galleryFetch(){
     });
 }
 galleryFetch()
-
+//fonction pour generer les bouttons filtres des categories a partir de l'API
 function buttonFetch(){
     fetch(`http://localhost:5678/api/categories`)
     .then(res => {
@@ -34,7 +34,7 @@ function buttonFetch(){
 }
 buttonFetch()
 
-
+//fonction pour filtrer les travaux a partir des bouttons et forEach pour gerer la class active des bouttons
 function btnEvent(){
     const btnCategory = document.querySelectorAll('.textCategory')
     for ( let i=0 ; i < btnCategory.length; i++)
@@ -59,7 +59,7 @@ function btnEvent(){
     
 
 }
-
+//fonction qu'on appelle dans la fonction pour filtrer les travaux pour afficher seulement ceux demandés
 function getFigure(idCategorie){
     gallery.innerHTML =""
     fetch(`http://localhost:5678/api/works`)
@@ -76,7 +76,7 @@ function getFigure(idCategorie){
     });
     
 }
-
+//fonction pour modifier la home page une fois connecter 
 function connected(){
     const connected = document.getElementById('connect')
     const head = document.querySelector('header')
@@ -98,14 +98,14 @@ connected()
 const modalContainer = document.querySelector('.modalContainer');
 const modalTriggers = document.querySelectorAll('.trigger');
 
+//forEach et fonction pour afficher/fermer la modal au click
 modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal ))
-
 function toggleModal(){
     modalContainer.classList.toggle('active')
 }
 
 
-
+//fonction pour afficher les travaux dans la modal a l'aide de l'API
 function galleryModalFetch(){
     const galleryModal = document.getElementById('galleryModal')
     galleryModal.innerHTML =""
@@ -123,7 +123,7 @@ function galleryModalFetch(){
 }
 galleryModalFetch()
 
-
+//fonction pour "changer de page" dans la modal quand on click sur le boutton ajouter une photo
 function btnAddModal(){
     const btnAddModal = document.querySelector('.btnAdd')
     
@@ -134,7 +134,7 @@ function btnAddModal(){
 btnAddModal()
 
 
-
+//fonction pour "creer" la deuxieme page de la modal en innerHTM
 function addModal(){
     const modalContent = document.getElementById('modalContent')
     const modalNav = document.getElementById('modalNav')
@@ -156,7 +156,7 @@ function addModal(){
     
 }
 
-
+//fonction pour revenir sur la première page depuis la deuxieme page
 function addFilesModal (){
     const backModal = document.querySelector('.backModal')
     backModal.addEventListener('click', ()=>{
@@ -173,7 +173,7 @@ function addFilesModal (){
     })
 }
 
-
+//fonction pour creer les options du select a partir de l'API
 function addCatToSelect(){
     const select = document.getElementById('cateAddModalInput')
     fetch(`http://localhost:5678/api/categories`)
@@ -189,6 +189,7 @@ function addCatToSelect(){
     });
 }
 
+//fonction pour afficher l'image du input file dans la modal
 function afficherImg(){
     const divDisplayNone = document.querySelectorAll('.display')
     const photoContainer = document.querySelector('#photoContainer')
@@ -209,6 +210,7 @@ function afficherImg(){
     
 }
 
+//fonction pour upload une image dans l'API
 function postSomething(){
     const imgUploaded = document.querySelector('#file')
     const imgTitre = document.querySelector('#titreAddModalInput')
