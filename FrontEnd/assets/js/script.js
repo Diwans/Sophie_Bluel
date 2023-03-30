@@ -115,11 +115,13 @@ function galleryModalFetch(){
         if(res.ok){
             res.json().then(data => {
                 for ( let i=0; i < data.length; i++){
-                galleryModal.innerHTML +="<figure class=\"figureModal\">"+"<img src="+data[i].imageUrl+">"+"<p>éditer</p>"+"</figure>"
+                galleryModal.innerHTML +="<figure class=\"figureModal\">"+"<img src="+data[i].imageUrl+">"+"<div class=\"cube\"><i data-id="+data[i].id+" class=\"fa-solid fa-trash fa-xs\"></i></div>"+"<p>éditer</p>"+"</figure>";
                 }
+                deleteWork()
                 })
+                
         } 
-    });
+    })
 }
 galleryModalFetch()
 
@@ -153,7 +155,6 @@ function addModal(){
     addFilesModal ()
     addCatToSelect()
     afficherImg()
-    
 }
 
 //fonction pour revenir sur la première page depuis la deuxieme page
@@ -242,3 +243,28 @@ function postSomething(){
 }
 
 
+
+function deleteWork(){
+    const trashbtn = document.querySelectorAll('.fa-trash')
+
+    for (let i=0; i<trashbtn.length; i++)
+    trashbtn[i].addEventListener('click',(e)=>{
+        let idValue = e.target.dataset.id
+        let result = confirm('etes vous sur de vouloir supprimer cette image ?')
+
+        if (result == true){
+            fetch('http://localhost:5678/api/works/'+ idValue, {
+        method:"DELETE",
+        headers: {"Authorization": `Bearer ${sessionStorage.getItem("token")}`},
+    })
+    .then((res) =>{
+        if(res.ok){
+            alert('image supprimée avec succès !')
+            figure.remove()
+        }
+    })
+    .catch((error) => {console.log(error)}); 
+        }
+        else{}
+    })
+}

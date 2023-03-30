@@ -135,7 +135,8 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
+	max-height: 488px;
+	object-fit: cover;
 }
 #contact {
 	width: 50%;
@@ -363,6 +364,11 @@ article p{
 	margin-right: 4px;
 }
 
+#galleryModal figure {
+	position: relative;
+}
+
+
 #galleryModal{
 	width: 420px;
 	max-height: 350px;
@@ -525,4 +531,24 @@ input[type="file"]{
 #trait{
 	margin-top: 40px;
 	border-bottom: solid 2px #B3B3B3;
+}
+
+
+.fa-trash{
+	color: white;
+}
+
+.cube{
+	position: absolute;
+	cursor: pointer;
+	top: 15px;
+	right: 9px;
+	width: 17px;
+	height: 17px;
+	background: #000000;
+	border-radius: 2px;
+	z-index: 2;display: flex;
+	justify-content: center;
+	align-items: center;
+
 }
