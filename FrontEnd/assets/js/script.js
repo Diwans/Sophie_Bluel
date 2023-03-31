@@ -83,12 +83,14 @@ function connected(){
     const pdp = document.getElementById('pdp')
     const projetModif = document.getElementById('projetModif')
     const divProjetTitle = document.querySelector('.align')
+    const newDiv = document.getElementById('newDiv')
 
     if (sessionStorage.getItem("token") ){
         head.classList.add('headerMargin')
         connected.innerHTML = "<div class=\"connectContainer\">"+"<i class=\"fa-regular fa-pen-to-square iconColor\"></i>" +"<span class=\"modeEdit\">Mode édition</span>"+"<button class=\"btnPublish\">publier les changements</button>"+"</div>";
         pdp.innerHTML += "<i class=\"fa-regular fa-pen-to-square cursorP marginIconPdp\"></i>"+ "<span class=\"btnModif cursorP\">modifier</span>"
         projetModif.innerHTML = "<i class=\"fa-regular fa-pen-to-square marginIconProjet trigger cursorP\"></i>"+"<span class=\"btnModif trigger cursorP\">modifier</span>"
+        newDiv.innerHTML = "<i class=\"fa-regular fa-pen-to-square marginIconProjet trigger cursorP\"></i>"+"<span class=\"btnModif trigger cursorP\">modifier</span>"
         cateContainer.style.display = 'none'
         divProjetTitle.style.marginBottom = '100px'
     }
@@ -164,7 +166,7 @@ function addFilesModal (){
         modalContent.innerHTML =""
         modalNav.innerHTML ="<button class=\"closeModal trigger\" id=\"closeModal\">X</button>"
 
-        modalContent.innerHTML="<h2 class=\"titleModal\">Galerie photo</h2>"+"<div id=\"galleryModal\"></div>"+"<button class=\"btnAdd\">Ajouter une photo</button>"+"<p class=\"suppr\">supprimer la galerie</p>"
+        modalContent.innerHTML="<h2 class=\"titleModal\">Galerie photo</h2>"+"<div id=\"galleryModal\"></div>"+"<div id=\"greenLine\"></div>"+"<button class=\"btnAdd\">Ajouter une photo</button>"+"<p class=\"suppr\">supprimer la galerie</p>"
         
         const modalTriggers = document.querySelectorAll('.trigger');
         modalTriggers.forEach(trigger => trigger.addEventListener("click", toggleModal ))
@@ -243,7 +245,7 @@ function postSomething(){
 }
 
 
-
+//fonction pour supprimer une image
 function deleteWork(){
     const trashbtn = document.querySelectorAll('.fa-trash')
 

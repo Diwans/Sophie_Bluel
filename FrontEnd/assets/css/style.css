@@ -101,6 +101,8 @@ li:hover {
 #introduction {
 	display: flex;
 	align-items: center;
+	margin-top: 100px;
+	margin-bottom: 100px;
 }
 #introduction figure {
 	flex: 1
@@ -223,6 +225,7 @@ footer nav ul {
 nav a {
 	text-decoration: none;
 	color: black;
+	margin-left: 20px;
 }
 
 .activebtn{
@@ -400,6 +403,10 @@ article p{
 	margin-bottom: 23px;
 }
 
+.btnAdd:hover{
+	cursor: pointer;
+}
+
 #galleryModal figure p{
 	text-align: start;
 	margin-left: 4px;
@@ -551,4 +558,21 @@ input[type="file"]{
 	justify-content: center;
 	align-items: center;
 
+}
+
+#newDiv{
+	margin-left: -26px;
+	margin-bottom: 25px;
+}
+
+#greenLine{
+	border-bottom: 1px solid #1D6154;
+	width: 420px;
+	margin: auto;
+	margin-bottom: 40px;
+}
+
+.suppr:hover{
+	text-decoration: underline;
+	cursor: pointer;
 }
