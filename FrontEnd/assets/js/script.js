@@ -37,27 +37,25 @@ buttonFetch()
 //fonction pour filtrer les travaux a partir des bouttons et forEach pour gerer la class active des bouttons
 function btnEvent(){
     const btnCategory = document.querySelectorAll('.textCategory')
-    for ( let i=0 ; i < btnCategory.length; i++)
-    btnCategory[i].addEventListener('click', (e) => {
-        let value = e.target.dataset.attrCategorie
-        if (value == 0){
-            galleryFetch()
-        }
-            else {
-                getFigure(value)
+    for ( let i=0 ; i < btnCategory.length; i++){
+        btnCategory[i].addEventListener('click', (e) => {
+            let value = e.target.dataset.attrCategorie
+            if (value == 0){
+                galleryFetch()
             }
-        
-    } )
-
-        btnCategory.forEach(button => {
-            button.addEventListener('click', ()=>{
-                document.querySelector('.activebtn')?.classList.remove('activebtn');
-                button.classList.add('activebtn')
-            })
-        })
-
+                else {
+                    getFigure(value)
+                }
+            
+        } )
     
-
+            btnCategory.forEach(button => {
+                button.addEventListener('click', ()=>{
+                    document.querySelector('.activebtn')?.classList.remove('activebtn');
+                    button.classList.add('activebtn')
+                })
+            })
+    }
 }
 //fonction qu'on appelle dans la fonction pour filtrer les travaux pour afficher seulement ceux demandés
 function getFigure(idCategorie){
@@ -117,7 +115,7 @@ function galleryModalFetch(){
         if(res.ok){
             res.json().then(data => {
                 for ( let i=0; i < data.length; i++){
-                galleryModal.innerHTML +="<figure class=\"figureModal\">"+"<img src="+data[i].imageUrl+">"+"<button type=\"button\" data-id="+data[i].id+" class=\"cube\"><i class=\"fa-solid fa-trash fa-xs\"></i></button>"+"<p>éditer</p>"+"</figure>";
+                galleryModal.innerHTML +="<figure class=\"figureModal\">"+"<img src="+data[i].imageUrl+">"+"<button type=\"button\" data-id="+data[i].id+" class=\"cube\"><i data-id="+data[i].id+" class=\"fa-solid fa-trash fa-xs\"></i></button>"+"<p>éditer</p>"+"</figure>";
                 }
                 deleteWork()
                 })
@@ -210,6 +208,7 @@ function afficherImg(){
             }
             
             postSomething()
+
         }
     })
     
@@ -217,7 +216,7 @@ function afficherImg(){
 
 //fonction pour upload une image dans l'API
 function postSomething(){
-    const imgUploaded = document.querySelector('#file')
+    const imgUpL = document.querySelector('#file')
     const imgTitre = document.querySelector('#titreAddModalInput')
     const imgCat = document.querySelector('#cateAddModalInput')
     const validate = document.querySelector('#validate')
@@ -225,10 +224,12 @@ function postSomething(){
 
     validate.addEventListener('click', (e)=>{
         e.preventDefault();
-    const formData = new FormData();
-        formData.append("image", imgUploaded.files[0]);
+
+        const formData = new FormData();
+        formData.append("image", imgUpL.files[0]);
         formData.append("title", imgTitre.value);
         formData.append("category", imgCat.value);
+
         
         fetch('http://localhost:5678/api/works', {
             method:"POST",
@@ -238,8 +239,19 @@ function postSomething(){
     
         .then( res => {
             if (res.ok){
-                gallery.innerHTML +="<figure class=\"imgGallery\">"+"<img src="+res.imageUrl+">"+"<figcaption>"+res.title+"</figcaption>"+"</figure>";
-                return false
+                
+                gallery.innerHTML +="<figure class=\"imgGallery\">"+"<img id=\"newImg\">"+"<figcaption>"+imgTitre.value+"</figcaption>"+"</figure>";
+
+                const newImg = document.getElementById('newImg')
+                newImg.src = URL.createObjectURL(imgUpL.files[0])
+
+                alert('photo ajoutée avec succès!')
+
+                const imgUploaded = document.getElementById('imgUploaded')
+                imgUploaded.remove()
+
+                const divAddPhoto = document.getElementById('addPhoto')
+                divAddPhoto.innerHTML ="<i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"    
             }
         })
         .catch(error=>{
