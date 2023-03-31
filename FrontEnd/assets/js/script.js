@@ -10,7 +10,7 @@ function galleryFetch(){
         if(res.ok){
             res.json().then(data => {
                 for ( let i=0; i < data.length; i++){
-                gallery.innerHTML +="<figure class=\"imgGallery\">"+"<img src="+data[i].imageUrl+">"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
+                gallery.innerHTML +="<figure data-id="+data[i].id+" class=\"imgGallery\">"+"<img src="+data[i].imageUrl+">"+"<figcaption>"+data[i].title+"</figcaption>"+"</figure>";
                 }
                 })
         } 
@@ -117,7 +117,7 @@ function galleryModalFetch(){
         if(res.ok){
             res.json().then(data => {
                 for ( let i=0; i < data.length; i++){
-                galleryModal.innerHTML +="<figure class=\"figureModal\">"+"<img src="+data[i].imageUrl+">"+"<div class=\"cube\"><i data-id="+data[i].id+" class=\"fa-solid fa-trash fa-xs\"></i></div>"+"<p>éditer</p>"+"</figure>";
+                galleryModal.innerHTML +="<figure class=\"figureModal\">"+"<img src="+data[i].imageUrl+">"+"<button type=\"button\" data-id="+data[i].id+" class=\"cube\"><i class=\"fa-solid fa-trash fa-xs\"></i></button>"+"<p>éditer</p>"+"</figure>";
                 }
                 deleteWork()
                 })
@@ -148,7 +148,7 @@ function addModal(){
 
     modalContent.innerHTML ="<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<div id=\"photoContainer\"><i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"
     
-    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+"<div id=\"trait\"></div>" +"<input type=\"button\" for=\"divInputAdd\" id=\"validate\" value=\"Valider\">"+"</form>"
+    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+"<div id=\"trait\"></div>" +"<button type=\"button\" for=\"divInputAdd\" id=\"validate\">Valider</button>"+"</form>"
 
 
     const modalTriggers = document.querySelectorAll('.trigger');
@@ -173,7 +173,7 @@ function addFilesModal (){
 
         galleryModalFetch()
         btnAddModal()
-    })
+    }) 
 }
 
 //fonction pour creer les options du select a partir de l'API
@@ -205,8 +205,10 @@ function afficherImg(){
             const imgUploaded = document.getElementById('imgUploaded')
             imgUploaded.src = URL.createObjectURL(e.target.files[0]);
 
-            for ( let i= 0; i < divDisplayNone.length; i++)
-            divDisplayNone[i].classList.add('displayNone')
+            for ( let i= 0; i < divDisplayNone.length; i++){
+                divDisplayNone[i].classList.add('displayNone')
+            }
+            
             postSomething()
         }
     })
@@ -221,7 +223,8 @@ function postSomething(){
     const validate = document.querySelector('#validate')
 
 
-    validate.addEventListener('click', ()=>{
+    validate.addEventListener('click', (e)=>{
+        e.preventDefault();
     const formData = new FormData();
         formData.append("image", imgUploaded.files[0]);
         formData.append("title", imgTitre.value);
@@ -236,6 +239,7 @@ function postSomething(){
         .then( res => {
             if (res.ok){
                 gallery.innerHTML +="<figure class=\"imgGallery\">"+"<img src="+res.imageUrl+">"+"<figcaption>"+res.title+"</figcaption>"+"</figure>";
+                return false
             }
         })
         .catch(error=>{
@@ -247,13 +251,15 @@ function postSomething(){
 
 //fonction pour supprimer une image
 function deleteWork(){
-    const trashbtn = document.querySelectorAll('.fa-trash')
+    const trashbtn = document.querySelectorAll('.cube')
 
     for (let i=0; i<trashbtn.length; i++)
     trashbtn[i].addEventListener('click',(e)=>{
+        e.preventDefault();
+
         let idValue = e.target.dataset.id
         let result = confirm('etes vous sur de vouloir supprimer cette image ?')
-
+    
         if (result == true){
             fetch('http://localhost:5678/api/works/'+ idValue, {
         method:"DELETE",
@@ -261,8 +267,13 @@ function deleteWork(){
     })
     .then((res) =>{
         if(res.ok){
-            alert('image supprimée avec succès !')
-            figure.remove()
+            e.target.closest('figure').remove()
+            const figure = document.querySelectorAll('.imgGallery')
+            for(let i=0; i<figure.length; i++){
+                if( figure[i].dataset.id == idValue){
+                    figure[i].remove()
+                }
+            }
         }
     })
     .catch((error) => {console.log(error)}); 
