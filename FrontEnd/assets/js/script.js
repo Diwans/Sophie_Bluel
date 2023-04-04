@@ -146,7 +146,7 @@ function addModal(){
 
     modalContent.innerHTML ="<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<div id=\"photoContainer\"><i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"
     
-    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+ "<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+"<div id=\"trait\"></div>" +"<button type=\"button\" for=\"divInputAdd\" id=\"validate\">Valider</button>"+"</form>"
+    modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<div id=\"titleRequiredField\" class=\"errorMsg\"></div>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+"<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<div id=\"cateRequiredField\" class=\"errorMsg\"></div>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+"<div id=\"trait\"></div>" +"<button type=\"button\" for=\"divInputAdd\" id=\"validate\">Valider</button>"+"</form>"
 
 
     const modalTriggers = document.querySelectorAll('.trigger');
@@ -195,9 +195,11 @@ function afficherImg(){
     const divDisplayNone = document.querySelectorAll('.display')
     const photoContainer = document.querySelector('#photoContainer')
     const inputFile = document.getElementById('file')
-    inputFile.addEventListener('change', (e)=>{
-        if (e.target.files[0].type ==='image/png' || e.target.files[0].type ==='image/jpeg') {
 
+    inputFile.addEventListener('change', (e)=>{
+            
+            if (e.target.files[0].type ==='image/png' || e.target.files[0].type ==='image/jpeg') {
+            
             photoContainer.innerHTML = "<img id=\"imgUploaded\" class=\"imgSize\"></img>"
 
             const imgUploaded = document.getElementById('imgUploaded')
@@ -206,10 +208,11 @@ function afficherImg(){
             for ( let i= 0; i < divDisplayNone.length; i++){
                 divDisplayNone[i].classList.add('displayNone')
             }
-            
             postSomething()
 
         }
+        
+        
     })
     
 }
@@ -230,33 +233,44 @@ function postSomething(){
         formData.append("title", imgTitre.value);
         formData.append("category", imgCat.value);
 
+        if (imgTitre.value == ""){
+            const titleRequiredField = document.getElementById('titleRequiredField');
+            titleRequiredField.innerText="*champs requis*";
+        }
         
-        fetch('http://localhost:5678/api/works', {
-            method:"POST",
-            headers: {"Authorization": `Bearer ${sessionStorage.getItem("token")}`},
-            body: formData,
-        })
+        if(imgCat.value == ""){
+            const cateRequiredField = document.getElementById('cateRequiredField');
+            cateRequiredField.innerText="*champs requis*";
+        }
+        else{
+            fetch('http://localhost:5678/api/works', {
+                method:"POST",
+                headers: {"Authorization": `Bearer ${sessionStorage.getItem("token")}`},
+                body: formData,
+            })
+        
+            .then( res => {
+                if (res.ok){
+                    
+                    gallery.innerHTML +="<figure data-attr-id=\"newImg\" class=\"imgGallery\">"+"<img id=\"newImg\">"+"<figcaption>"+imgTitre.value+"</figcaption>"+"</figure>";
     
-        .then( res => {
-            if (res.ok){
-                
-                gallery.innerHTML +="<figure class=\"imgGallery\">"+"<img id=\"newImg\">"+"<figcaption>"+imgTitre.value+"</figcaption>"+"</figure>";
-
-                const newImg = document.getElementById('newImg')
-                newImg.src = URL.createObjectURL(imgUpL.files[0])
-
-                alert('photo ajoutée avec succès!')
-
-                const imgUploaded = document.getElementById('imgUploaded')
-                imgUploaded.remove()
-
-                const divAddPhoto = document.getElementById('addPhoto')
-                divAddPhoto.innerHTML ="<i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"    
-            }
-        })
-        .catch(error=>{
-            console.log(error.message)
-        })
+                    const newImg = document.getElementById('newImg')
+                    newImg.src = URL.createObjectURL(imgUpL.files[0])
+    
+                    alert('photo ajoutée avec succès!')
+    
+                    const imgUploaded = document.getElementById('imgUploaded')
+                    imgUploaded.remove()
+    
+                    const divAddPhoto = document.getElementById('addPhoto')
+                    divAddPhoto.innerHTML ="<i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"    
+                }
+            })
+            .catch(error=>{
+                console.log(error.message)
+            })
+        }
+        
     })
 }
 
@@ -283,6 +297,9 @@ function deleteWork(){
             const figure = document.querySelectorAll('.imgGallery')
             for(let i=0; i<figure.length; i++){
                 if( figure[i].dataset.id == idValue){
+                    figure[i].remove()
+                }
+                if(figure[i].dataset.attrId == "newImg"){
                     figure[i].remove()
                 }
             }

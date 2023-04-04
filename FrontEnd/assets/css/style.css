@@ -576,3 +576,9 @@ input[type="file"]{
 	text-decoration: underline;
 	cursor: pointer;
 }
+
+.errorMsg{
+	color: red;
+	font-size: 10px;
+	margin-bottom: -10px;
+}
