@@ -3,9 +3,6 @@ const eMail = document.querySelector('#mail')
 const passWord = document.querySelector('#passWord')
 const form = document.querySelector('form')
 
-//fonction pour declencher un message d'alerte a propos de l'identifiant ou du mdp
-function errorMsg(){alert('identifiant ou mot de passe incorrect')}
-
 //script pour envoyer les informations necessaires a l'API pour se connecter 
 form.addEventListener('submit', (e)=>{
     e.preventDefault();
@@ -14,6 +11,16 @@ form.addEventListener('submit', (e)=>{
         email: eMail.value,
         password : passWord.value,
     };
+
+    if(eMail.value == ""){
+        const mailRequiredField = document.getElementById('mailRequiredField');
+        mailRequiredField.innerText="*champs requis*";
+    }
+
+    if(passWord.value == ""){
+        const mdpRequiredField = document.getElementById('mdpRequiredField');
+        mdpRequiredField.innerText="*champs requis*";
+    }
     //fetch POST avec la const user en body
     fetch('http://localhost:5678/api/users/login', {
         method:"POST",
@@ -24,9 +31,6 @@ form.addEventListener('submit', (e)=>{
     .then((res) =>{
         if(res.ok){
             return res.json();
-        }
-        else{
-            errorMsg()
         }
     })
     //recuperation et stockage du token de connection et redirection vers la home page 

@@ -155,6 +155,9 @@ function addModal(){
     addFilesModal ()
     addCatToSelect()
     afficherImg()
+
+    const validate = document.querySelector('#validate')
+    validate.addEventListener('click', postSomething)
 }
 
 //fonction pour revenir sur la première page depuis la deuxieme page
@@ -208,7 +211,6 @@ function afficherImg(){
             for ( let i= 0; i < divDisplayNone.length; i++){
                 divDisplayNone[i].classList.add('displayNone')
             }
-            postSomething()
 
         }
         
@@ -219,30 +221,38 @@ function afficherImg(){
 
 //fonction pour upload une image dans l'API
 function postSomething(){
+    titleRequiredField.innerText="";
+    cateRequiredField.innerText="";
+
+    let isOk = true
     const imgUpL = document.querySelector('#file')
     const imgTitre = document.querySelector('#titreAddModalInput')
     const imgCat = document.querySelector('#cateAddModalInput')
-    const validate = document.querySelector('#validate')
-
-
-    validate.addEventListener('click', (e)=>{
-        e.preventDefault();
-
+    
         const formData = new FormData();
         formData.append("image", imgUpL.files[0]);
         formData.append("title", imgTitre.value);
         formData.append("category", imgCat.value);
 
+        
         if (imgTitre.value == ""){
+            isOk = false;
             const titleRequiredField = document.getElementById('titleRequiredField');
             titleRequiredField.innerText="*champs requis*";
         }
         
         if(imgCat.value == ""){
+            isOk = false;
             const cateRequiredField = document.getElementById('cateRequiredField');
             cateRequiredField.innerText="*champs requis*";
         }
-        else{
+
+        if (imgUpL.files.length == 0){
+            isOk = false;
+            alert("image manquante !")
+        }
+
+        if(isOk === true) {
             fetch('http://localhost:5678/api/works', {
                 method:"POST",
                 headers: {"Authorization": `Bearer ${sessionStorage.getItem("token")}`},
@@ -263,16 +273,20 @@ function postSomething(){
                     imgUploaded.remove()
     
                     const divAddPhoto = document.getElementById('addPhoto')
-                    divAddPhoto.innerHTML ="<i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"    
+                    divAddPhoto.innerHTML ="<i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"
+                    
+                    imgTitre.value = ""
+                    imgCat.value = ""
                 }
             })
             .catch(error=>{
                 console.log(error.message)
             })
         }
-        
-    })
+     
+
 }
+
 
 
 //fonction pour supprimer une image
