@@ -48,7 +48,10 @@ function btnEvent(){
                 }
             
         } )
-    
+        
+        const btnTous = document.getElementById('btnTous')
+        btnTous.classList.add('activebtn')
+
             btnCategory.forEach(button => {
                 button.addEventListener('click', ()=>{
                     document.querySelector('.activebtn')?.classList.remove('activebtn');
@@ -144,7 +147,7 @@ function addModal(){
     modalContent.innerHTML =""
     modalNav.innerHTML +="<button class=\"backModal\"><i class=\"fa-solid fa-arrow-left backModal\"></i></button>"
 
-    modalContent.innerHTML ="<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<div id=\"photoContainer\"><i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\">jpg, png : 4mo max</p>"
+    modalContent.innerHTML ="<h2 class=\"titleModal\">Ajout photo</h2>"+"<div id=\"addPhoto\">"+"<div id=\"photoContainer\"><i class=\"fa-regular fa-image fa-6x\"></i></div>"+"<input id =\"file\" type=\"file\" class =\"display\" accept=\"image/png, image/jpeg\">"+"<label class=\"btnAddModal display\" for=\"file\">+ Ajouter photo</label>"+"<p class =\"display\" id=\"infoImg\">jpg, png : 4mo max</p>"
     
     modalContent.innerHTML +="<form id=\"divInputAdd\">"+"<label for=\"titre\" id=\"titreAddModalLabel\">Titre</label>"+"<div id=\"titleRequiredField\" class=\"errorMsg\"></div>"+"<br>"+"<input type=\"texte\" name=\"titre\" id=\"titreAddModalInput\">"+"<br>"+"<label for=\"cateAddModalInput\" id=\"cateAddModalLabel\">Catégorie</label>"+"<div id=\"cateRequiredField\" class=\"errorMsg\"></div>"+"<br>"+"<select type=\"texte\" name=\"cateAddModalInput\" id=\"cateAddModalInput\">"+"<option value=\"\"></option>"+"</select>"+"<div id=\"trait\"></div>" +"<button type=\"button\" for=\"divInputAdd\" id=\"validate\">Valider</button>"+"</form>"
 
@@ -249,7 +252,9 @@ function postSomething(){
 
         if (imgUpL.files.length == 0){
             isOk = false;
-            alert("image manquante !")
+            const infoImg = document.getElementById('infoImg')
+            infoImg.classList.add('errorMsg')
+            infoImg.innerText="*image manquante*";
         }
 
         if(isOk === true) {
