@@ -6,6 +6,10 @@ const form = document.querySelector('form')
 //script pour envoyer les informations necessaires a l'API pour se connecter 
 form.addEventListener('submit', (e)=>{
     e.preventDefault();
+
+    mailRequiredField.innerText="";
+    mdpRequiredField.innerText="";
+    
     //creation d'une const user pour recupérer les infos necessaires a la connection
     const user = {
         email: eMail.value,
